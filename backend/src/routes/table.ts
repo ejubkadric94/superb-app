@@ -5,7 +5,7 @@ const tableRouter = new Router({ prefix: '/table' });
 
 tableRouter.post('/', async (ctx) => {
   const { restaurantId } = ctx.request.body as { restaurantId: string };
-  console.log(restaurantId, ctx.request.body)
+
   if (!restaurantId) {
     ctx.status = 400;
     ctx.body = { error: 'Bad Request', message: 'No restaurantId provided' };
@@ -24,7 +24,7 @@ tableRouter.get('/', async (ctx) => {
       ctx.body = { error: 'Bad Request', message: 'No restaurantId provided' };
       return;
     }
-    console.log(restaurantId)
+    
     const tables = await Table.find({ restaurantId });
     ctx.body = tables;
   } catch (error) {

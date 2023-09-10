@@ -87,7 +87,6 @@ router.delete('/:bookingId', async (ctx) => {
       return;
     }
 
-    console.log(bookingId)
     const deletedItem = await Booking.deleteOne({ _id: bookingId });
     ctx.body = deletedItem;
   } catch (error) {

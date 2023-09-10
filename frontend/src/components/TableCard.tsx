@@ -1,4 +1,4 @@
-import { Card, Col } from "antd";
+import { Col } from "antd";
 import {ReactComponent as ForkAndKnife} from '../svgs/ForkAndKnife.svg'
 import { Table } from "../typescript/types";
 import CardButton from "./CardButton";
