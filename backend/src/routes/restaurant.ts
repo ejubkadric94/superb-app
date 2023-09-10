@@ -5,20 +5,9 @@ import Table from '../models/table';
 
 const restaurantRouter = new Router({ prefix: '/restaurant' });
 
-// restaurantRouter.post('/', async (ctx) => {
-//   ctx.body = await Restaurant.create({
-//     restaurantName: 'Superb Restaurant',
-//     workingHours: {
-//       start: 8,
-//       end: 23
-//     },
-//     managerIds: ["e5a202c5-cdd5-45d1-89ff-74bc2b238310"],
-//   });
-// });
-
 restaurantRouter.post('/:restaurantId/setWorkingHours', async (ctx) => {
   const { restaurantId } = ctx.params;
-  const { start, end }: WorkingHours = ctx.request.body as WorkingHours; // The body object will contain the parsed request body
+  const { start, end } = ctx.request.body as WorkingHours;
   
   if (start === undefined || end === undefined || typeof start !== 'number' || typeof end !== 'number') {
     ctx.status = 400;
