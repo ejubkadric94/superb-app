@@ -4,15 +4,29 @@ import Table from '../models/table';
 const tableRouter = new Router({ prefix: '/table' });
 
 tableRouter.post('/', async (ctx) => {
-  // TODO implement restaurants
-  const newTable = Object.assign({ restaurantId: '6b2c3572-8e2f-4bbe-b2bf-d4279608e93f'}, ctx.request.body);
-  ctx.body = await Table.create(newTable);
+  const { restaurantId } = ctx.request.body as { restaurantId: string };
+  console.log(restaurantId, ctx.request.body)
+  if (!restaurantId) {
+    ctx.status = 400;
+    ctx.body = { error: 'Bad Request', message: 'No restaurantId provided' };
+    return;
+  }
+
+  const numberOfTables = await Table.countDocuments({ restaurantId });
+  ctx.body = await Table.create({ restaurantId, tableNumber: numberOfTables + 1 });
 });
 
 tableRouter.get('/', async (ctx) => {
   try {
-    const tables = await Table.find({});
-    ctx.body = { tables };
+    const restaurantId = ctx.query.restaurantId;
+    if (!restaurantId) {
+      ctx.status = 400;
+      ctx.body = { error: 'Bad Request', message: 'No restaurantId provided' };
+      return;
+    }
+    console.log(restaurantId)
+    const tables = await Table.find({ restaurantId });
+    ctx.body = tables;
   } catch (error) {
     ctx.body = JSON.stringify(error);
   }

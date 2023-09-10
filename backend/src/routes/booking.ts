@@ -6,7 +6,6 @@ import Restaurant from '../models/restaurant';
 
 import { DateTime } from 'luxon';
 
-
 const router = new Router({ prefix: '/booking' });
 
 router.post('/', async (ctx) => {

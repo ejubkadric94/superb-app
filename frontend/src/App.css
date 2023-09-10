@@ -1,0 +1,60 @@
+html, body, #root {
+  height: 100vh;
+}
+
+.ant-layout {
+  height: 100vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 24px;
+  background-color: #001529;
+  color: white;
+  padding: 0 20px;
+  height: 64px;
+  line-height: 64px;
+}
+
+.header-title {
+  flex: 1;
+}
+
+.header-welcome {
+  flex: 1;
+  text-align: end;
+}
+
+@media (max-width: 600px) {
+  .header-welcome {
+    display: none;
+  }
+}
+
+.content {
+  padding: 16px;
+  background-color: #f0f2f5; 
+}
+
+.ant-card {
+  margin-bottom: 16px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 110px;
+}
+
+.ant-card-head {
+  border-bottom: 0;
+}
+
+.ant-card-head-title {
+  font-size: 18px;
+}
+
+.ant-row {
+  margin-bottom: -16px;
+}

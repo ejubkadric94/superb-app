@@ -2,6 +2,7 @@ import Koa from 'koa';
 import Router from 'koa-router';
 import bodyParser from 'koa-bodyparser';
 import mongoose from 'mongoose';
+import cors from '@koa/cors';
 
 import bookingRouter from './routes/booking';
 import tableRouter from './routes/table';
@@ -12,6 +13,12 @@ mongoose.connect('mongodb://localhost:27017', { dbName: 'superb',  });
 const app: Koa = new Koa();
 
 app.use(bodyParser());
+app.use(cors({
+  origin: 'http://localhost:3001',
+  allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true, // allows cookies to be sent with the request
+}))
+
 app.use(bookingRouter.routes()).use(bookingRouter.allowedMethods());
 app.use(tableRouter.routes()).use(tableRouter.allowedMethods());
 app.use(restaurantRouter.routes()).use(restaurantRouter.allowedMethods());
