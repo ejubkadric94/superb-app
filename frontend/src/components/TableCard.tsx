@@ -17,6 +17,7 @@ const TableCard = ({ table }: Props) => {
         onClick={() => navigate(`/table/${table.tableNumber}`)}
         title={`Table ${table.tableNumber}`}
         bordered
+        hoverable
       >
         <ForkAndKnife />
       </CardButton>

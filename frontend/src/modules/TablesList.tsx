@@ -2,8 +2,8 @@ import { useQuery } from 'react-query'
 import { Row } from "antd"
 import { fetchTables } from '../api/api';
 import { RESTAURANT_ID } from '../constants/constants';
-import AddTable from './AddTable';
-import TableCard from './TableCard';
+import AddTable from '../components/AddTable';
+import TableCard from '../components/TableCard';
 
 const TablesList = () => {
   const { data: tables, error, isLoading } = useQuery(['tables', RESTAURANT_ID], () => fetchTables(RESTAURANT_ID))

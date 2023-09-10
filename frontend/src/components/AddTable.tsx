@@ -23,7 +23,7 @@ const AddTable = () => {
 
   return (
     <Col span={6} key='addButton' xs={24} sm={8} md={6} lg={6}>
-      <CardButton title="Add a table" bordered onClick={addTable}>
+      <CardButton title="Add a table" bordered hoverable onClick={addTable}>
         <SquarePlus />
       </CardButton>
     </Col>

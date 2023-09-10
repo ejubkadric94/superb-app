@@ -3,3 +3,9 @@ export interface Table {
   tableNumber: number;
   restaurantId: string;
 }
+
+export interface Booking {
+  _id: string;
+  numberOfPeople: number;
+  bookingTime: string;
+} 

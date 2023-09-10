@@ -4,15 +4,12 @@ import { Layout } from 'antd'
 import { QueryClient, QueryClientProvider } from 'react-query'
 
 import './App.css'
-import TableDetails from './components/TableDetails'
-import BookingDetails from './components/BookingDetails'
-import TablesList from './components/TablesList'
+import TableDetails from './modules/TableDetails'
+import TablesList from './modules/TablesList'
 
 const queryClient = new QueryClient();
 
 const App = () => {
-  
-
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
@@ -24,8 +21,7 @@ const App = () => {
           <Content className="content">
             <Routes>
               <Route path="/" element={<TablesList />}  />
-              <Route path="/table/:tableId" element={<TableDetails />} />
-              <Route path="/booking/:bookingId" element={<BookingDetails />} />
+              <Route path="/table/:tableNumber" element={<TableDetails />} />
             </Routes>
           </Content>
         </Layout>

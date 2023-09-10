@@ -2,14 +2,14 @@ import { Card } from "antd";
 
 type Props = {
   title: string;
-  onClick: () => void;
+  onClick?: () => void;
 } & React.ComponentProps<typeof Card>;
 
-const CardButton: React.FC<Props> = ({ title, onClick, ...props }) => {
+const CardButton: React.FC<Props> = ({ title, onClick = () => {}, hoverable, ...props }) => {
   return (
     <Card
       tabIndex={0}
-      hoverable
+      hoverable={hoverable}
       role="button"
       title={title}
       onClick={onClick}

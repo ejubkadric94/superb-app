@@ -40,7 +40,6 @@ html, body, #root {
 
 .ant-card {
   margin-bottom: 16px;
-  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;

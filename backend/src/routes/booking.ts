@@ -64,11 +64,35 @@ router.post('/', async (ctx) => {
 
 router.get('/', async (ctx) => {
   try {
-    const bookings = await Booking.find({});
-    ctx.body = { bookings };
+    const { tableNumber } = ctx.query;
+    if (!tableNumber) {
+      ctx.status = 400;
+      ctx.body = { error: 'Bad Request', message: 'Invalid tableNumber value provided' };
+      return;
+    }
+
+    const bookings = await Booking.find({ tableNumber });
+    ctx.body = bookings;
   } catch (error) {
     ctx.body = JSON.stringify(error);
   }
 });
+
+router.delete('/:bookingId', async (ctx) => {
+  try {
+    const { bookingId } = ctx.params;
+    if (!bookingId) {
+      ctx.status = 400;
+      ctx.body = { error: 'Bad Request', message: 'Invalid bookingId value provided' };
+      return;
+    }
+
+    console.log(bookingId)
+    const deletedItem = await Booking.deleteOne({ _id: bookingId });
+    ctx.body = deletedItem;
+  } catch (error) {
+    ctx.body = JSON.stringify(error);
+  }
+})
 
 export default router;
