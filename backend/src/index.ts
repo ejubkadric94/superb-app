@@ -7,16 +7,17 @@ import cors from '@koa/cors';
 import bookingRouter from './routes/booking';
 import tableRouter from './routes/table';
 import restaurantRouter from './routes/restaurant';
+import { CLIENT_URL, MONGO_URL } from './constants';
 
-mongoose.connect('mongodb://localhost:27017', { dbName: 'superb',  });
+mongoose.connect(MONGO_URL, { dbName: 'superb' });
 
 const app: Koa = new Koa();
 
 app.use(bodyParser());
 app.use(cors({
-  origin: 'http://localhost:3001',
+  origin: CLIENT_URL,
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true, // allows cookies to be sent with the request
+  credentials: true,
 }))
 
 app.use(bookingRouter.routes()).use(bookingRouter.allowedMethods());

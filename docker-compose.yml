@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: 
+      context: ./frontend
+    container_name: frontend_container
+    ports:
+      - "3001:3001"
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/superb
+      - CLIENT_URL=http://localhost:3001'
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodata:/data/db
+
+volumes:
+  mongodata: 
