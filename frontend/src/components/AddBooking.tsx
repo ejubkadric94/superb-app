@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Button, Modal } from 'antd'
 import useCreateBooking from '../customHooks/useCreateBooking'
-import AddBookingModalContent from '../modules/AddBookingModalContent'
+import AddBookingModalContent from '../modals/AddBookingModalContent'
 
 type Props = {
   tableNumber: string
