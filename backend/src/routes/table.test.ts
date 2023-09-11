@@ -5,7 +5,7 @@ import Restaurant from '../models/restaurant';
 
 beforeAll(async () => {
   await mongoose.createConnection('mongodb://localhost:27017/superbTableTest');
-  await mongoose.connection.useDb('superbTableTest');
+  await mongoose.connection.dropDatabase();
 
   await Restaurant.create({
     _id: "6b2c3572-8e2f-4bbe-b2bf-d4279608e93f",
