@@ -42,7 +42,7 @@ export const validateNewBooking = async (booking: BookingType) => {
   }
 
   // Check if booking time is outside of restaurant working houts
-  const bookingTime = DateTime.fromISO(booking.bookingTime.toString(), { zone: 'Europe/Sarajevo' });
+  const bookingTime = DateTime.fromISO(booking.bookingTime.toString());
   const bookingHour = bookingTime.hour;
   if (bookingHour < restaurant!.workingHours!.start || bookingHour >= restaurant!.workingHours!.end) {
     return {
@@ -74,7 +74,7 @@ export const validateNewBooking = async (booking: BookingType) => {
 }
 
 export const validateWorkingHours = (restaurantId: string, { start, end }: WorkingHours) => {
-  if (start === undefined || end === undefined || typeof start !== 'number' || typeof end !== 'number') {
+  if (start === undefined || end === undefined || typeof start !== 'number' || typeof end !== 'number' || start < 0 || end > 24) {
     return { error: true, errorMessage: 'Request body contains invalid workingHours property' };
   }
   
