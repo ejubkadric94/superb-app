@@ -1,18 +1,36 @@
 import request from 'supertest';
-import { app } from '../index';
-import { setupTestDB, teardownTestDB } from '../tests/prepareTestDb'; // utility functions to set up and tear down the test DB
-import Table from '../models/table';
+import app from '../server';
 import Booking from '../models/booking';
+import mongoose from 'mongoose';
+import Restaurant from '../models/restaurant';
+import Table from '../models/table';
 
-beforeAll(setupTestDB);
-afterAll(teardownTestDB);
+beforeAll(async () => {
+  await mongoose.createConnection('mongodb://localhost:27017/superbBookingTest');
+  await mongoose.connection.useDb('superbBookingTest');
+
+  await Restaurant.create({
+    _id: "6b2c3572-8e2f-4bbe-b2bf-d4279608e93f",
+    restaurantName: "Superb Restaurant",
+    workingHours: {
+      start: 8,
+      end: 23,
+    },
+    managerIds: [],
+  });
+  await Table.create({ restaurantId: '6b2c3572-8e2f-4bbe-b2bf-d4279608e93f', tableNumber: 2 });
+});
+afterAll(async () => {
+  await mongoose.connection.dropDatabase();
+  await mongoose.connection.close();
+});
 
 describe('POST /booking', () => {
   it('should create a new table and booking', async () => {
     const res = await request(app.callback())
       .post('/booking')
       .send({
-        tableNumber: 1,
+        tableNumber: 2,
         bookingTime: new Date().toISOString(),
         numberOfPeople: 4,
       });
@@ -38,7 +56,7 @@ describe('GET /booking', () => {
   it('should fetch bookings by table number', async () => {
     const res = await request(app.callback())
       .get('/booking')
-      .query({ tableNumber: 1 });
+      .query({ tableNumber: 2 });
     
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
@@ -59,7 +77,7 @@ describe('DELETE /booking/:bookingId', () => {
     const createRes = await request(app.callback())
       .post('/booking')
       .send({
-        tableNumber: 1,
+        tableNumber: 2,
         bookingTime: new Date().toISOString(),
         numberOfPeople: 4,
       });

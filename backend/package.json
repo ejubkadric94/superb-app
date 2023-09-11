@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "start": "ts-node-dev --respawn src/index.ts",
+    "test": "jest --forceExit --detectOpenHandles  --watchAll --maxWorkers=1",
+    "start": "ts-node-dev --respawn src/server.ts",
     "seed": "ts-node-dev src/seed.ts",
     "build": "tsc",
     "serve": "node dist/index.js"

@@ -11,7 +11,7 @@ import { CLIENT_URL, MONGO_URL } from './constants';
 
 mongoose.connect(MONGO_URL, { dbName: 'superb' });
 
-export const app: Koa = new Koa();
+const app: Koa = new Koa();
 
 app.use(bodyParser());
 app.use(cors({
@@ -30,7 +30,4 @@ router.get('/', async (ctx) => {
 });
 app.use(router.routes()).use(router.allowedMethods());
 
-const PORT: number = Number(process.env.PORT) || 3000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+export default app;
