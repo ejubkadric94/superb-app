@@ -29,7 +29,12 @@ const BookingCard = ({ booking, index, tableNumber }: Props) => {
           <Text strong>Number of guests: </Text>{booking.numberOfPeople}<br/>
           <Text strong>Booking time: </Text>{booking.bookingTime}
         </div>
-        <Button type="text" icon={<CloseOutlined />} onClick={(e) => { e.stopPropagation(); handleDelete(booking._id) }} />
+        <Button
+          type="text"
+          icon={<CloseOutlined />}
+          onClick={(e) => { e.stopPropagation(); handleDelete(booking._id) }}
+          title="Delete booking"
+        />
       </div>
     </Card>
   )
