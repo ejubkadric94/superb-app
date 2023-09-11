@@ -29,7 +29,7 @@ __Note__: Both frontend and backend are written in Typescript.
 # Instruction on testing
 1. Navigate to the backend folder: `cd pathToApp/backend/`
 1. Run the test command: `npm run test`
-```
+
 Note: In case you experience tests failure due to missing library: "libcrypto.so.1.1", please install the missing dependencies [Link to this issue comment on GitHub](https://github.com/nodejs/docker-node/issues/1915#issuecomment-1589387922)
 
 # Drawbacks
