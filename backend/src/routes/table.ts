@@ -13,6 +13,7 @@ tableRouter.post('/', async (ctx) => {
   }
 
   const numberOfTables = await Table.countDocuments({ restaurantId });
+
   ctx.body = await Table.create({ restaurantId, tableNumber: numberOfTables + 1 });
 });
 

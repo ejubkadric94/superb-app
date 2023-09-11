@@ -1,24 +1,14 @@
-import { useMutation, useQueryClient } from 'react-query';
-import { Col } from 'antd';
+import { Col } from 'antd'
 import {ReactComponent as SquarePlus} from '../svgs/SquarePlus.svg'
-import { RESTAURANT_ID } from '../constants/constants';
-import { createTable } from '../api/api';
-import CardButton from './CardButton';
+import { RESTAURANT_ID } from '../constants/constants'
+import CardButton from './CardButton'
+import useCreateTable from '../customHooks/useCreateTable'
 
 const AddTable = () => {
-  const queryClient = useQueryClient();
-
-  const addTableMutation = useMutation(
-    (restaurantId?: string) => createTable(restaurantId),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(['tables', RESTAURANT_ID]);
-      },
-    }
-  )
+  const mutation = useCreateTable()
 
   const addTable = () => {
-    addTableMutation.mutate(RESTAURANT_ID)
+    mutation.mutate(RESTAURANT_ID)
   }
 
   return (
@@ -28,6 +18,6 @@ const AddTable = () => {
       </CardButton>
     </Col>
   )
-};
+}
 
-export default AddTable;
+export default AddTable

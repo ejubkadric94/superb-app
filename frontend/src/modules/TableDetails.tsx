@@ -1,31 +1,31 @@
-import { Typography } from 'antd';
-import { useParams } from 'react-router-dom';
-import { useQuery } from 'react-query';
-import { fetchBookings } from '../api/api';
-import { Booking as BookingType } from '../typescript/types';
-import BookingCard from '../components/BookingCard';
-import BackNavigationButton from '../components/BackNavigationButton';
+import { Typography } from 'antd'
+import { useParams } from 'react-router-dom'
+import { useQuery } from 'react-query'
+import { Booking as BookingType } from '../typescript/types'
+import BookingCard from '../components/BookingCard'
+import BackNavigationButton from '../components/BackNavigationButton'
 
-import './TableDetails.css';
-import AddBooking from '../components/AddBooking';
+import './TableDetails.css'
+import AddBooking from '../components/AddBooking'
+import { fetchBookings } from '../api/bookingApi'
 
-const { Title, Text } = Typography;
+const { Title, Text } = Typography
 
 const TableDetails = () => {
-  const { tableNumber } = useParams<{ tableNumber: string }>();
+  const { tableNumber } = useParams<{ tableNumber: string }>()
 
-  const { data: bookings, error, isLoading } = useQuery(['bookings', tableNumber], () => fetchBookings(tableNumber));
+  const { data: bookings, error, isLoading } = useQuery(['bookings', tableNumber], () => fetchBookings(tableNumber))
 
   if (!tableNumber) {
-    return null;
+    return null
   }
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>
   }
 
   if (error) {
-    return <div>Error loading data</div>;
+    return <div>Error loading data</div>
   }
 
   return (
@@ -41,7 +41,7 @@ const TableDetails = () => {
         <Text>No bookings available</Text>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default TableDetails;
+export default TableDetails

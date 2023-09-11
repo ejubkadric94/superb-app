@@ -1,9 +1,9 @@
-import { Card } from "antd";
+import { Card } from "antd"
 
 type Props = {
-  title: string;
-  onClick?: () => void;
-} & React.ComponentProps<typeof Card>;
+  title: string
+  onClick?: () => void
+} & React.ComponentProps<typeof Card>
 
 const CardButton: React.FC<Props> = ({ title, onClick = () => {}, hoverable, ...props }) => {
   return (
@@ -15,7 +15,7 @@ const CardButton: React.FC<Props> = ({ title, onClick = () => {}, hoverable, ...
       onClick={onClick}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === 'Space') {
-          onClick();
+          onClick()
         }
       }}
       {...props}
@@ -23,4 +23,4 @@ const CardButton: React.FC<Props> = ({ title, onClick = () => {}, hoverable, ...
   )
 }
 
-export default CardButton;
+export default CardButton

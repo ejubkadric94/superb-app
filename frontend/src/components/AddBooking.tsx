@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { Button, Modal, DatePicker, InputNumber } from 'antd'
-import { useMutation, useQueryClient } from 'react-query'
-import { createBooking } from '../api/api'
+import { Button, Modal } from 'antd'
+import useCreateBooking from '../customHooks/useCreateBooking'
+import AddBookingModalContent from '../modules/AddBookingModalContent'
 
 type Props = {
-  tableNumber: string;
+  tableNumber: string
 }
 
 const AddBooking = ({ tableNumber }: Props) => {
@@ -12,17 +12,8 @@ const AddBooking = ({ tableNumber }: Props) => {
   const [error, setError] = useState<string>('')
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [numberOfGuests, setNumberOfGuests] = useState<number>(1)
-  const queryClient = useQueryClient();
 
-  const mutation = useMutation(createBooking, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['bookings', tableNumber])
-      setIsModalVisible(false)
-    },
-    onError: (error: string) => {
-      setError(error.toString());
-    }
-  })
+  const mutation = useCreateBooking({ tableNumber, setIsModalVisible, setError })
 
   const handleOk = () => {
     if (selectedDate && numberOfGuests) {
@@ -55,32 +46,12 @@ const AddBooking = ({ tableNumber }: Props) => {
           </Button>,
         ]}
       >
-        <div style={{ marginBottom: '1em' }}>
-          <div>Booking Time</div>
-          <DatePicker 
-            showTime 
-            onChange={(date) => {
-              setSelectedDate(date ? date.toDate() : null)
-              setError('')
-            }} 
-          />
-        </div>
-        <div style={{ marginBottom: '1em' }}>
-          <div>Number of Guests</div>
-          <InputNumber 
-            min={1} 
-            max={10} 
-            defaultValue={1} 
-            onChange={(value) => {
-              if (!value) {
-                return
-              }
-              setNumberOfGuests(value)
-              setError('')
-            }} 
-          />
-        </div>
-        {!!error && <div style={{ color: 'red', marginBottom: '1em' }}>{error}</div>}
+        <AddBookingModalContent
+          setSelectedDate={setSelectedDate}
+          setError={setError}
+          setNumberOfGuests={setNumberOfGuests}
+          error={error}
+        />
       </Modal>
     </div>
   )

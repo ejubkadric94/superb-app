@@ -9,3 +9,5 @@ export interface Booking {
   numberOfPeople: number;
   bookingTime: string;
 } 
+
+export type QueryParam = number | string;

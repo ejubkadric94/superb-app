@@ -2,10 +2,9 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { Content, Header } from "antd/es/layout/layout"
 import { Layout } from 'antd'
 import { QueryClient, QueryClientProvider } from 'react-query'
-
-import './App.css'
 import TableDetails from './modules/TableDetails'
 import TablesList from './modules/TablesList'
+import './App.css'
 
 const queryClient = new QueryClient();
 
