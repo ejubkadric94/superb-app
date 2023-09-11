@@ -4,6 +4,8 @@ import { RESTAURANT_ID } from '../constants/constants';
 import AddTable from '../components/AddTable';
 import TableCard from '../components/TableCard';
 import { fetchTables } from '../api/tableApi';
+import './TablesList.css'
+import WorkingHours from '../components/WorkingHours';
 
 const TablesList = () => {
   const { data: tables, error, isLoading } = useQuery(['tables', RESTAURANT_ID], () => fetchTables(RESTAURANT_ID))
@@ -18,7 +20,8 @@ const TablesList = () => {
 
   return (
     <>
-      <h1>List of tables</h1>
+      <WorkingHours />
+      <h2>List of tables</h2>
       <Row gutter={16}>
         {tables.map((table) => <TableCard table={table} key={table._id} />)}
         <AddTable />

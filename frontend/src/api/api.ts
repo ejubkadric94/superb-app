@@ -6,6 +6,8 @@ export const Api = {
   fetchBookingsUrl: (tableNumber: string | number) => `${BACKEND_URL}/booking?tableNumber=${tableNumber}`,
   deleteBookingUrl: (bookingId: string) => `${BACKEND_URL}/booking/${bookingId}`,
   createBookingUrl: () => `${BACKEND_URL}/booking`,
+  fetchRestaurant: (restaurantId: string) => `${BACKEND_URL}/restaurant/${restaurantId}`,
+  setWorkingHours: (restaurantId: string) => `${BACKEND_URL}/restaurant/${restaurantId}/setWorkingHours`
 }
 
 export const GET = async (url: string) => {

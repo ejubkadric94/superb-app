@@ -1,0 +1,11 @@
+.working-hours {
+  padding-left: 0;
+  margin-bottom: 40px;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+}
+
+.working-hours > .change-working-hours-button {
+  margin-left: 20px;
+}

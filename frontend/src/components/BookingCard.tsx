@@ -2,6 +2,7 @@ import { Button, Card, Typography } from "antd"
 import { Booking } from "../typescript/types"
 import { CloseOutlined } from '@ant-design/icons'
 import useDeleteBooking from "../customHooks/useDeleteBooking"
+import { formatTime } from "../helpers/timeHelper"
 
 const { Text } = Typography
 
@@ -26,8 +27,8 @@ const BookingCard = ({ booking, index, tableNumber }: Props) => {
     <Card className='table-details' key={booking._id} title={`Booking ${index + 1}`} >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <Text strong>Number of guests: </Text>{booking.numberOfPeople}<br/>
-          <Text strong>Booking time: </Text>{booking.bookingTime}
+          <Text>Number of guests: </Text><Text strong>{booking.numberOfPeople}</Text><br/>
+          <Text>Booking time: </Text><Text strong>{formatTime(booking.bookingTime)}</Text>
         </div>
         <Button
           type="text"

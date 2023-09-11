@@ -52,6 +52,20 @@ restaurantRouter.post('/:restaurantId/setWorkingHours', async (ctx) => {
   }
 });
 
+restaurantRouter.get('/:restaurantId', async (ctx) => {
+  try {
+    const { restaurantId } = ctx.params;
+    if (!restaurantId) {
+      ctx.status = 400;
+      ctx.body = { error: 'Invalid restaurantId' };
+      return;
+    }
+    ctx.body = await Restaurant.findOne({ _id: restaurantId });
+  } catch (error) {
+    ctx.body = JSON.stringify(error);
+  }
+});
+
 restaurantRouter.get('/:restaurantId/tables', async (ctx) => {
   try {
     const tables = await Table.find({ restaurantId: ctx.params.restaurantId });

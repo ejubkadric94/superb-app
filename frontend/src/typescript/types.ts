@@ -8,6 +8,11 @@ export interface Booking {
   _id: string;
   numberOfPeople: number;
   bookingTime: string;
-} 
+}
 
 export type QueryParam = number | string;
+
+export interface WorkingHours {
+  start: Date,
+  end: Date,
+}
