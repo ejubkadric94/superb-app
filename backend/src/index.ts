@@ -11,7 +11,7 @@ import { CLIENT_URL, MONGO_URL } from './constants';
 
 mongoose.connect(MONGO_URL, { dbName: 'superb' });
 
-const app: Koa = new Koa();
+export const app: Koa = new Koa();
 
 app.use(bodyParser());
 app.use(cors({

@@ -33,8 +33,8 @@ export const validateNewBooking = async (booking: BookingType) => {
     };
   }
 
-  const restaurant = await Restaurant.findOne({ _id: table?.restaurantId });
-  if (!restaurant || !restaurant?.workingHours) {
+  const restaurant = await Restaurant.findOne({ _id: table.restaurantId });
+  if (!restaurant) {
     return {
       error: true,
       errorMessage: 'Restaurant does not exist'
