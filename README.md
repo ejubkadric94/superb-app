@@ -23,7 +23,7 @@ __Note__: Both frontend and backend are written in Typescript.
 1. Build docker image: `sudo docker-compose build`
 1. Run docker image: `sudo docker-compose up`
 1. Enter the backend directort: `cd backend`
-1. Populate database with the test restaurant: `npm run seed`
+1. Populate database with the test restaurant: `npm run seed` (**Don't forget this step**)
 1. The app runs on `http://localhost:3001`
 
 # Instruction on testing
