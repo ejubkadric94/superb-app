@@ -1,73 +1,77 @@
 import Router from 'koa-router';
 import Booking from '../models/booking';
-import Table from '../models/table';
 import { Booking as BookingType } from '../typescript/types';
-import Restaurant from '../models/restaurant';
-
-import { DateTime } from 'luxon';
+import { validateNewBooking } from '../helpers/validators';
 
 const router = new Router({ prefix: '/booking' });
 
+/**
+ * @api {post} / Create Booking
+ * @apiName CreateBooking
+ * @apiGroup Booking
+ * 
+ * @apiHeader {String} Content-Type Application/json
+ * 
+ * @apiParam {Number} tableNumber The number of the table being booked (Required).
+ * @apiParam {String} bookingTime The time of the booking, in ISO string format (Required).
+ * @apiParam {Number} numberOfPeople The number of people for the booking (Required).
+ * 
+ * @apiSuccess {Object} booking The created booking object.
+ * 
+ * @apiError {Object} 400 Some parameters may contain invalid values.
+ * @apiError {String} 400.error The error message.
+ * @apiErrorExample {json} Error-Response:
+ *     HTTP/400 Bad Request
+ *     {
+ *       "error": "Invalid booking data"
+ *     }
+ * 
+ */
 router.post('/', async (ctx) => {
-  const booking = ctx.request.body as BookingType;
-
-  if (!booking.tableNumber || !booking.bookingTime || !booking.numberOfPeople) {
-    ctx.status = 400;
-    ctx.body = { error: 'Invalid booking data' };
-    return;
+  try {
+    const booking = ctx.request.body as BookingType;
+  
+    const bookingValidator = await validateNewBooking(booking);
+    if (bookingValidator?.error) {
+      ctx.status = 400;
+      ctx.body = { error: bookingValidator?.errorMessage };
+      return;
+    }
+  
+    ctx.body = await Booking.create(booking);
+  } catch (error) {
+    ctx.body = JSON.stringify(error);
   }
-
-  const table = await Table.findOne({ tableNumber: booking.tableNumber });
-  if (!table) {
-    ctx.status = 400;
-    ctx.body = { error: 'Table does not exist' };
-    return;
-  }
-
-  const restaurant = await Restaurant.findOne({ _id: table.restaurantId });
-  if (!restaurant || !restaurant.workingHours) {
-    ctx.status = 400;
-    ctx.body = { error: 'Restaurant does not exist' };
-    return;
-  }
-
-
-  const bookingTime = DateTime.fromISO(booking.bookingTime.toString(), { zone: 'Europe/Sarajevo' });
-  const bookingHour = bookingTime.hour;
-
-
-  if (bookingHour < restaurant.workingHours.start || bookingHour >= restaurant.workingHours.end) {
-    ctx.status = 400;
-    ctx.body = { error: 'Booking time falls outside the restaurant working hours' };
-    return;
-  }
-
-  const hourBefore = bookingTime.minus({ hours: 1 })
-  const hourAfter = bookingTime.plus({ hours: 1 });
-
-  const conflictingBooking = await Booking.findOne({
-    tableNumber: booking.tableNumber,
-    bookingTime: {
-      $lt: hourAfter.toJSDate(),
-      $gte: hourBefore.toJSDate(),
-    },
-  });
-
-  if (conflictingBooking) {
-    ctx.status = 400;
-    ctx.body = { error: 'Conflicting booking exists' };
-    return;
-  }
-
-  ctx.body = await Booking.create(booking);
 });
 
+/**
+ * @api {get} / Fetch Bookings by Table Number
+ * @apiName GetBookings
+ * @apiGroup Booking
+ * 
+ * @apiHeader {String} Content-Type Application/json
+ * 
+ * @apiParam {Number} tableNumber The number of the table for fetching bookings (Required).
+ * 
+ * @apiSuccess {Array} bookings An array containing all booking objects associated with the provided table number.
+ * 
+ * @apiError {Object} 400 Some parameters may contain invalid values.
+ * @apiError {String} 400.error The error message.
+ * @apiErrorExample {json} Error-Response:
+ *     HTTP/400 Bad Request
+ *     {
+ *       "error": "Invalid tableNumber value provided"
+ *     }
+ * 
+ * @apiError {String} 500 Server error details (in development mode).
+ * 
+ */
 router.get('/', async (ctx) => {
   try {
     const { tableNumber } = ctx.query;
     if (!tableNumber) {
       ctx.status = 400;
-      ctx.body = { error: 'Bad Request', message: 'Invalid tableNumber value provided' };
+      ctx.body = { error: 'Invalid tableNumber value provided' };
       return;
     }
 
@@ -78,12 +82,34 @@ router.get('/', async (ctx) => {
   }
 });
 
+/**
+ * @api {delete} /:bookingId Delete Booking by ID
+ * @apiName DeleteBooking
+ * @apiGroup Booking
+ * 
+ * @apiHeader {String} Content-Type Application/json
+ * 
+ * @apiParam {String} bookingId The ID of the booking to be deleted (Required).
+ * 
+ * @apiSuccess {Object} deletedItem An object containing the details of the deletion operation, including a count of the number of deleted documents.
+ * 
+ * @apiError {Object} 400 Some parameters may contain invalid values.
+ * @apiError {String} 400.error The error message.
+ * @apiErrorExample {json} Error-Response:
+ *     HTTP/400 Bad Request
+ *     {
+ *       "error": "Invalid bookingId value provided"
+ *     }
+ * 
+ * @apiError {String} 500 Server error details (in development mode).
+ * 
+ */
 router.delete('/:bookingId', async (ctx) => {
   try {
     const { bookingId } = ctx.params;
     if (!bookingId) {
       ctx.status = 400;
-      ctx.body = { error: 'Bad Request', message: 'Invalid bookingId value provided' };
+      ctx.body = { error: 'Invalid bookingId value provided' };
       return;
     }
 
